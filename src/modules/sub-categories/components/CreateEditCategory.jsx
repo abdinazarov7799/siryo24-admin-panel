@@ -1,0 +1,123 @@
+import React, {useState} from 'react';
+import {useTranslation} from "react-i18next";
+import usePostQuery from "../../../hooks/api/usePostQuery.js";
+import {KEYS} from "../../../constants/key.js";
+import {URLS} from "../../../constants/url.js";
+import {Button, Checkbox, Form, Input, InputNumber} from "antd";
+import {get} from "lodash";
+import usePutQuery from "../../../hooks/api/usePutQuery.js";
+const { TextArea } = Input;
+
+const CreateEditCategory = ({itemData,setIsModalOpen,refetch}) => {
+    const { t } = useTranslation();
+    const [isActive, setIsActive] = useState(get(itemData,'active',true));
+    const { mutate, isLoading } = usePostQuery({
+        listKeyId: KEYS.category_get_all,
+    });
+    const { mutate:mutateEdit, isLoading:isLoadingEdit } = usePutQuery({
+        listKeyId: KEYS.category_get_all,
+        hideSuccessToast: false
+    });
+    const { mutate:UploadImage } = usePostQuery({
+            hideSuccessToast: true
+    });
+    const onFinish = (values) => {
+        const formData = {
+            ...values,
+            active: isActive,
+        }
+        if (itemData) {
+            mutateEdit(
+                { url: `${URLS.category_edit}/${get(itemData,'id')}`, attributes: formData },
+                {
+                    onSuccess: () => {
+                        setIsModalOpen(false);
+                        refetch()
+                    },
+                }
+            );
+        }else {
+            mutate(
+                { url: URLS.category_add, attributes: formData },
+                {
+                    onSuccess: () => {
+                        setIsModalOpen(false);
+                        refetch()
+                    },
+                }
+            );
+        }
+    };
+
+    return (
+        <>
+            <Form
+                onFinish={onFinish}
+                autoComplete="off"
+                layout={"vertical"}
+                initialValues={{
+                    nameUz: get(itemData,'nameUz'),
+                    nameRu: get(itemData,'nameRu'),
+                    descriptionUz: get(itemData,'descriptionUz'),
+                    descriptionRu: get(itemData,'descriptionRu'),
+                    number: get(itemData,'number')
+                }}
+            >
+                <Form.Item
+                    label={t("nameUz")}
+                    name="nameUz"
+                    rules={[{required: true,}]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label={t("nameRu")}
+                    name="nameRu"
+                    rules={[{required: true,}]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label={t("descriptionUz")}
+                    name="descriptionUz"
+                    rules={[{required: true,}]}
+                >
+                    <TextArea />
+                </Form.Item>
+
+                <Form.Item
+                    label={t("descriptionRu")}
+                    name="descriptionRu"
+                    rules={[{required: true,}]}
+                >
+                    <TextArea />
+                </Form.Item>
+
+                <Form.Item
+                    label={t("Order")}
+                    name="number"
+                    rules={[{required: true,}]}
+                >
+                    <InputNumber />
+                </Form.Item>
+
+                <Form.Item
+                    name="active"
+                    valuePropName="active"
+                >
+                    <Checkbox checked={isActive} onChange={(e) => setIsActive(e.target.checked)}>{t("is Active")} ?</Checkbox>
+                </Form.Item>
+
+                <Form.Item>
+                    <Button block type="primary" htmlType="submit" loading={isLoading || isLoadingEdit}>
+                        {itemData ? t("Edit") : t("Create")}
+                    </Button>
+                </Form.Item>
+            </Form>
+        </>
+    );
+};
+
+export default CreateEditCategory;
