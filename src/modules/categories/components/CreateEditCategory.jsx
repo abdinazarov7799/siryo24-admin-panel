@@ -1,16 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {useTranslation} from "react-i18next";
 import usePostQuery from "../../../hooks/api/usePostQuery.js";
 import {KEYS} from "../../../constants/key.js";
 import {URLS} from "../../../constants/url.js";
-import {Button, Checkbox, Form, Input, InputNumber} from "antd";
+import {Button, Form, Input, InputNumber} from "antd";
 import {get} from "lodash";
 import usePutQuery from "../../../hooks/api/usePutQuery.js";
-const { TextArea } = Input;
 
 const CreateEditCategory = ({itemData,setIsModalOpen,refetch}) => {
     const { t } = useTranslation();
-    const [isActive, setIsActive] = useState(get(itemData,'active',true));
+    const [form] = Form.useForm();
     const { mutate, isLoading } = usePostQuery({
         listKeyId: KEYS.category_get_all,
     });
@@ -18,13 +17,16 @@ const CreateEditCategory = ({itemData,setIsModalOpen,refetch}) => {
         listKeyId: KEYS.category_get_all,
         hideSuccessToast: false
     });
-    const { mutate:UploadImage } = usePostQuery({
-            hideSuccessToast: true
-    });
+    useEffect(() => {
+        form.setFieldsValue({
+            nameUz: get(itemData,'nameUz'),
+            nameRu: get(itemData,'nameRu'),
+            number: get(itemData,'number')
+        });
+    }, [itemData]);
     const onFinish = (values) => {
         const formData = {
             ...values,
-            active: isActive,
         }
         if (itemData) {
             mutateEdit(
@@ -55,13 +57,7 @@ const CreateEditCategory = ({itemData,setIsModalOpen,refetch}) => {
                 onFinish={onFinish}
                 autoComplete="off"
                 layout={"vertical"}
-                initialValues={{
-                    nameUz: get(itemData,'nameUz'),
-                    nameRu: get(itemData,'nameRu'),
-                    descriptionUz: get(itemData,'descriptionUz'),
-                    descriptionRu: get(itemData,'descriptionRu'),
-                    number: get(itemData,'number')
-                }}
+                form={form}
             >
                 <Form.Item
                     label={t("nameUz")}
@@ -80,34 +76,11 @@ const CreateEditCategory = ({itemData,setIsModalOpen,refetch}) => {
                 </Form.Item>
 
                 <Form.Item
-                    label={t("descriptionUz")}
-                    name="descriptionUz"
-                    rules={[{required: true,}]}
-                >
-                    <TextArea />
-                </Form.Item>
-
-                <Form.Item
-                    label={t("descriptionRu")}
-                    name="descriptionRu"
-                    rules={[{required: true,}]}
-                >
-                    <TextArea />
-                </Form.Item>
-
-                <Form.Item
                     label={t("Order")}
                     name="number"
                     rules={[{required: true,}]}
                 >
                     <InputNumber />
-                </Form.Item>
-
-                <Form.Item
-                    name="active"
-                    valuePropName="active"
-                >
-                    <Checkbox checked={isActive} onChange={(e) => setIsActive(e.target.checked)}>{t("is Active")} ?</Checkbox>
                 </Form.Item>
 
                 <Form.Item>

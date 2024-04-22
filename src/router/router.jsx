@@ -21,12 +21,8 @@ import CategoryPage from "../modules/categories/pages/CategoryPage.jsx";
 import TranslationPage from "../modules/translation/pages/TranslationPage.jsx";
 import OverlayLoader from "../components/OverlayLoader.jsx";
 import ProductsPage from "../modules/products/pages/ProductsPage.jsx";
-import ConstantsPage from "../modules/constants/pages/ConstantsPage.jsx";
 import UsersPage from "../modules/users/pages/UsersPage.jsx";
-import LogsPage from "../modules/logs/pages/LogsPage.jsx";
-import RequestsPage from "../modules/requests/pages/RequestsPage.jsx";
 import SellersPage from "../modules/sellers/pages/SellersPage.jsx";
-import SubCategoryPage from "../modules/sub-categories/pages/SubCategoryPage.jsx";
 // PAGES
 
 
@@ -42,10 +38,6 @@ const Router = ({ ...rest }) => {
                   element={<CategoryPage />}
               />
               <Route
-                  path={"/sub-categories"}
-                  element={<SubCategoryPage />}
-              />
-              <Route
                   path={"/products"}
                   element={<ProductsPage />}
               />
@@ -54,24 +46,12 @@ const Router = ({ ...rest }) => {
                   element={<SellersPage />}
               />
               <Route
-                  path={"/constants"}
-                  element={<ConstantsPage />}
-              />
-              <Route
-                  path={"/requests"}
-                  element={<RequestsPage />}
-              />
-              <Route
                   path={"/users"}
                   element={<UsersPage />}
               />
               <Route
                   path={"/translations"}
                   element={<TranslationPage />}
-              />
-              <Route
-                  path={"/logs"}
-                  element={<LogsPage />}
               />
               <Route
                   path={"auth/*"}

@@ -19,8 +19,8 @@ const SellersContainer = () => {
     const [isCreateModalOpenCreate, setIsCreateModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const {data,isLoading,isFetching,refetch} = usePaginateQuery({
-        key: KEYS.product_get_all,
-        url: URLS.product_get_all,
+        key: KEYS.seller_get_all,
+        url: URLS.seller_get_all,
         params: {
             params: {
                 size,
@@ -30,10 +30,10 @@ const SellersContainer = () => {
         page
     });
     const { mutate } = useDeleteQuery({
-        listKeyId: KEYS.product_get_all
+        listKeyId: KEYS.seller_get_all
     });
     const useDelete = (id) => {
-        mutate({url: `${URLS.product_delete}/${id}`},{
+        mutate({url: `${URLS.seller_delete}/${id}`},{
             onSuccess: () => {
                 refetch();
             }
@@ -47,53 +47,45 @@ const SellersContainer = () => {
             width: 30
         },
         {
-            title: t("nameUz"),
-            dataIndex: "nameUz",
-            key: "nameUz",
+            title: t("organization"),
+            dataIndex: "organization",
+            key: "organization",
         },
         {
-            title: t("nameRu"),
-            dataIndex: "nameRu",
-            key: "nameRu",
+            title: t("channel"),
+            dataIndex: "channel",
+            key: "channel",
         },
         {
-            title: t("descriptionUz"),
-            dataIndex: "descriptionUz",
-            key: "descriptionUz",
+            title: t("phoneNumber1"),
+            dataIndex: "phoneNumber1",
+            key: "phoneNumber1",
         },
         {
-            title: t("descriptionRu"),
-            dataIndex: "descriptionRu",
-            key: "descriptionRu",
+            title: t("phoneNumber2"),
+            dataIndex: "phoneNumber2",
+            key: "phoneNumber2",
         },
         {
-            title: t("Category name uz"),
-            key: 'categoryNameUz',
-            render: (props, data, index) => {
-                return get(data,'categories.nameUz')
-            }
+            title: t("info"),
+            dataIndex: "info",
+            key: "info",
         },
         {
-            title: t("Category name ru"),
-            key: 'categoryNameRu',
-            render: (props, data, index) => {
-                return get(data,'categories.nameRu')
-            }
-        },
-        {
-            title: t("Image"),
-            dataIndex: "imageUrl",
-            key: "imageUrl",
-            width: 50,
-            render: (props, data, index) => (
-                <Link href={get(data,'imageUrl')} target="_blank">{t("Image")}</Link>
+            title: t("acceptTransfer"),
+            dataIndex: "acceptTransfer",
+            key: "acceptTransfer",
+            render: (props,data,index) => (
+                <Switch disabled checked={get(data,'acceptTransfer')} />
             )
         },
         {
-            title: t("Order"),
-            dataIndex: "number",
-            key: "number",
-            width: 70
+            title: t("acceptCash"),
+            dataIndex: "acceptCash",
+            key: "acceptCash",
+            render: (props,data,index) => (
+                <Switch disabled checked={get(data,'acceptCash')} />
+            )
         },
         {
             title: t("is active"),
@@ -115,7 +107,7 @@ const SellersContainer = () => {
                         setItemData(data)
                     }} />
                     <Popconfirm
-                        title={t("Delete product")}
+                        title={t("Delete")}
                         description={t("Are you sure to delete?")}
                         onConfirm={() => useDelete(get(data,'id'))}
                         okText={t("Yes")}
@@ -142,10 +134,10 @@ const SellersContainer = () => {
                       type={"primary"}
                       onClick={() => setIsCreateModalOpen(true)}
                   >
-                      {t("New product")}
+                      {t("New")}
                   </Button>
                   <Modal
-                      title={t('Create new product')}
+                      title={t('Create new seller')}
                       open={isCreateModalOpenCreate}
                       onCancel={() => setIsCreateModalOpen(false)}
                       footer={null}
@@ -164,7 +156,7 @@ const SellersContainer = () => {
               />
 
               <Modal
-                  title={t("Edit product")}
+                  title={t("Edit seller")}
                   open={isEditModalOpen}
                   onCancel={() => setIsEditModalOpen(false)}
                   footer={null}

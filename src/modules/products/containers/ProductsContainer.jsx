@@ -5,10 +5,12 @@ import {KEYS} from "../../../constants/key.js";
 import {URLS} from "../../../constants/url.js";
 import usePaginateQuery from "../../../hooks/api/usePaginateQuery.js";
 import useDeleteQuery from "../../../hooks/api/useDeleteQuery.js";
-import {Button, Input, Modal, Pagination, Popconfirm, Row, Space, Switch, Table} from "antd";
+import {Button, Input, Modal, Pagination, Popconfirm, Popover, Row, Space, Table, Typography} from "antd";
 import Container from "../../../components/Container.jsx";
-import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined} from "@ant-design/icons";
 import CreateEditProduct from "../components/CreateEditProduct.jsx";
+const { Link,Text } = Typography;
+
 const ProductsContainer = () => {
     const { t } = useTranslation();
     const [page, setPage] = useState(0);
@@ -46,52 +48,77 @@ const ProductsContainer = () => {
             width: 30
         },
         {
-            title: t("nameUz"),
-            dataIndex: "nameUz",
-            key: "nameUz",
+            title: t("name"),
+            dataIndex: "name",
+            key: "name",
         },
         {
-            title: t("nameRu"),
-            dataIndex: "nameRu",
-            key: "nameRu",
+            title: t("category"),
+            dataIndex: "category",
+            key: "category",
         },
         {
-            title: t("descriptionUz"),
-            dataIndex: "descriptionUz",
-            key: "descriptionUz",
+            title: t("country"),
+            dataIndex: "country",
+            key: "country",
         },
         {
-            title: t("descriptionRu"),
-            dataIndex: "descriptionRu",
-            key: "descriptionRu",
+            title: t("manufacturer"),
+            dataIndex: "manufacturer",
+            key: "manufacturer",
         },
         {
-            title: t("Category name uz"),
-            key: 'categoryNameUz',
-            render: (props, data, index) => {
-                return get(data,'categories.nameUz')
-            }
+            title: t("price"),
+            key: 'price',
+            dataIndex: "price",
         },
         {
-            title: t("Category name ru"),
-            key: 'categoryNameRu',
-            render: (props, data, index) => {
-                return get(data,'categories.nameRu')
-            }
+            title: t("priceUpdatedTime"),
+            key: 'priceUpdatedTime',
+            dataIndex: 'priceUpdatedTime',
         },
         {
-            title: t("Order"),
-            dataIndex: "number",
-            key: "number",
-            width: 70
-        },
-        {
-            title: t("is active"),
-            dataIndex: "active",
-            key: "active",
-            render: (props,data,index) => (
-                <Switch disabled checked={get(data,'active')} />
+            title: t("Image"),
+            dataIndex: "imageUrl",
+            key: "imageUrl",
+            width: 50,
+            render: (props, data, index) => (
+                <Link href={get(data,'imageUrl')} target="_blank">{t("Image")}</Link>
             )
+        },
+        {
+            title: t("alternativeNames"),
+            dataIndex: "alternativeNames",
+            key: "alternativeNames",
+            render: (props, data, index) => {
+                return (
+                    <Popover
+                        content={
+                            <Space direction={"vertical"}>{props?.map((item) => (<Text>{get(item, 'name')}</Text>))}</Space>
+                        }
+                        title={t("alternativeNames")}
+                    >
+                        <Button type="primary" icon={<EyeOutlined />} />
+                    </Popover>
+                )
+            }
+        },
+        {
+            title: t("analogs"),
+            dataIndex: "analogs",
+            key: "analogs",
+            render: (props, data, index) => {
+                return (
+                    <Popover
+                        content={
+                        <Space direction={"vertical"}>{props?.map((item) => (<Text>{get(item, 'name')}</Text>))}</Space>
+                    }
+                        title={t("analogs")}
+                    >
+                        <Button type="primary" icon={<EyeOutlined />} />
+                    </Popover>
+                )
+            }
         },
         {
             title: t("Edit / Delete"),
@@ -105,7 +132,7 @@ const ProductsContainer = () => {
                         setItemData(data)
                     }} />
                     <Popconfirm
-                        title={t("Delete product")}
+                        title={t("Delete")}
                         description={t("Are you sure to delete?")}
                         onConfirm={() => useDelete(get(data,'id'))}
                         okText={t("Yes")}
@@ -132,7 +159,7 @@ const ProductsContainer = () => {
                       type={"primary"}
                       onClick={() => setIsCreateModalOpen(true)}
                   >
-                      {t("New product")}
+                      {t("New")}
                   </Button>
                   <Modal
                       title={t('Create new product')}

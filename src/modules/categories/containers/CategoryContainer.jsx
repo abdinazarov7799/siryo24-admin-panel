@@ -56,28 +56,10 @@ const CategoryContainer = () => {
             key: "nameRu",
         },
         {
-            title: t("descriptionUz"),
-            dataIndex: "descriptionUz",
-            key: "descriptionUz",
-        },
-        {
-            title: t("descriptionRu"),
-            dataIndex: "descriptionRu",
-            key: "descriptionRu",
-        },
-        {
             title: t("Order"),
             dataIndex: "number",
             key: "number",
             width: 70
-        },
-        {
-            title: t("is active"),
-            dataIndex: "active",
-            key: "active",
-            render: (props,data,index) => (
-                <Switch disabled checked={get(data,'active')} />
-            )
         },
         {
             title: t("Edit / Delete"),
@@ -91,7 +73,7 @@ const CategoryContainer = () => {
                         setItemData(data)
                     }} />
                     <Popconfirm
-                        title={t("Delete categories")}
+                        title={t("Delete")}
                         description={t("Are you sure to delete?")}
                         onConfirm={() => useDelete(get(data,'id'))}
                         okText={t("Yes")}
@@ -118,7 +100,7 @@ const CategoryContainer = () => {
                       icon={<PlusOutlined />}
                       onClick={() => setIsCreateModalOpen(true)}
                   >
-                      {t("New categories")}
+                      {t("New")}
                   </Button>
                   <Modal
                       title={t('Create new categories')}

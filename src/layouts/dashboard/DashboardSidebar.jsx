@@ -1,10 +1,9 @@
-import {Menu} from "antd";
+import {Layout, Menu} from "antd";
 import {get} from "lodash";
 import React from "react";
-import Sider from "antd/es/layout/Sider";
 import {useTranslation} from "react-i18next";
 import {useLocation, useNavigate} from "react-router-dom";
-
+const {Sider} = Layout
 const DashboardSidebar = () => {
     const { t } = useTranslation();
     const location = useLocation()
@@ -14,10 +13,6 @@ const DashboardSidebar = () => {
         {
             label: t("Categories"),
             key: "/categories",
-        },
-        {
-            label: t("Sub categories"),
-            key: "/sub-categories",
         },
         {
             label: t("Products"),
@@ -30,18 +25,6 @@ const DashboardSidebar = () => {
         {
             label: t("Users"),
             key: "/users",
-        },
-        {
-            label: t("Requests"),
-            key: "/requests",
-        },
-        {
-            label: t("Logs"),
-            key: "/logs",
-        },
-        {
-            label: t("Constants"),
-            key: "/constants",
         },
         {
             label: t("Translations"),

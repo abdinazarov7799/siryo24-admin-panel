@@ -72,14 +72,6 @@ const UsersContainer = () => {
             key: "chatId",
         },
         {
-            title: t("registered"),
-            dataIndex: "registered",
-            key: "registered",
-            render: (props,data,index) => (
-                <Switch disabled checked={get(data,'registered')} />
-            )
-        },
-        {
             title: t("banned"),
             dataIndex: "banned",
             key: "banned",
@@ -88,12 +80,9 @@ const UsersContainer = () => {
             )
         },
         {
-            title: t("admin"),
-            dataIndex: "admin",
-            key: "admin",
-            render: (props,data,index) => (
-                <Switch disabled checked={get(data,'admin')} />
-            )
+            title: t("role"),
+            dataIndex: "role",
+            key: "role",
         },
         {
             title: t("Ban / Un Ban"),

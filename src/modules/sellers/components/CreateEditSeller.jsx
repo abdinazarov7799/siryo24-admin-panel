@@ -1,48 +1,50 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from "react-i18next";
 import usePostQuery from "../../../hooks/api/usePostQuery.js";
 import {KEYS} from "../../../constants/key.js";
 import {URLS} from "../../../constants/url.js";
-import {Button, Checkbox, Form, Input, InputNumber, Select} from "antd";
+import {Button, Checkbox, Form, Input, Space} from "antd";
 const { TextArea } = Input;
-import useGetAllQuery from "../../../hooks/api/useGetAllQuery.js";
 import {get} from "lodash";
 import usePutQuery from "../../../hooks/api/usePutQuery.js";
 
 const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
     const { t } = useTranslation();
+    const [form] = Form.useForm();
     const [isActive, setIsActive] = useState(get(itemData,'active',true));
-    const [categoryId,setCategoryId] = useState(null);
-    const [searchCategory,setSearchCategory] = useState(null);
+    const [acceptCash, setAcceptCash] = useState(get(itemData,'acceptCash',true));
+    const [acceptTransfer, setAcceptTransfer] = useState(get(itemData,'acceptTransfer',true));
     const { mutate, isLoading } = usePostQuery({
-        listKeyId: KEYS.product_get_all,
+        listKeyId: KEYS.seller_get_all,
     });
     const { mutate:mutateEdit, isLoading:isLoadingEdit } = usePutQuery({
-        listKeyId: KEYS.product_get_all,
+        listKeyId: KEYS.seller_get_all,
         hideSuccessToast: false
     });
-    const { mutate:UploadImage } = usePostQuery({
-        hideSuccessToast: true
-    });
-    const { data:categories,isLoading:isLoadingCategory } = useGetAllQuery({
-        key: KEYS.category_get_all,
-        url: URLS.category_get_all,
-        params: {
-            params: {
-                search: searchCategory,
-                size: 200
-            }
-        }
-    })
+
+    useEffect(() => {
+        form.setFieldsValue({
+            organization: get(itemData,'organization'),
+            channel: get(itemData,'channel'),
+            phoneNumber1: get(itemData,'phoneNumber1'),
+            phoneNumber2: get(itemData,'phoneNumber2'),
+            info: get(itemData,'info')
+        });
+        setIsActive(get(itemData,'active',true))
+        setAcceptCash(get(itemData,'acceptCash',true))
+        setAcceptTransfer(get(itemData,'acceptTransfer',true))
+    }, [itemData]);
+
     const onFinish = (values) => {
         const formData = {
             ...values,
             active: isActive,
-            categoryId
+            acceptCash,
+            acceptTransfer
         }
         if (itemData){
             mutateEdit(
-                { url: `${URLS.product_edit}/${get(itemData,'id')}`, attributes: formData },
+                { url: `${URLS.seller_edit}/${get(itemData,'id')}`, attributes: formData },
                 {
                     onSuccess: () => {
                         setIsModalOpen(false);
@@ -52,7 +54,7 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
             );
         }else {
             mutate(
-                { url: URLS.product_add, attributes: formData },
+                { url: URLS.seller_add, attributes: formData },
                 {
                     onSuccess: () => {
                         setIsModalOpen(false);
@@ -68,82 +70,69 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
                 onFinish={onFinish}
                 autoComplete="off"
                 layout={"vertical"}
-                initialValues={{
-                    nameUz: get(itemData,'nameUz'),
-                    nameRu: get(itemData,'nameRu'),
-                    descriptionUz: get(itemData,'descriptionUz'),
-                    descriptionRu: get(itemData,'descriptionRu'),
-                    number: get(itemData,'number')
-                }}
+                form={form}
             >
                 <Form.Item
-                    label={t("Category")}
-                    name="categoryId"
-                    rules={[{required: true,}]}>
-                    <Select
-                        showSearch
-                        placeholder={t("Category")}
-                        optionFilterProp="children"
-                        defaultValue={get(itemData,'categories.id')}
-                        onChange={(e) => setCategoryId(e)}
-                        onSearch={(e) => setSearchCategory(e)}
-                        filterOption={(input, option) =>
-                            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                        loading={isLoadingCategory}
-                        options={get(categories,'data.data.content')?.map((item) => {
-                            return {
-                                value: get(item,'id'),
-                                label: `${get(item,'nameUz')} / ${get(item,'nameRu')}`
-                            }
-                        })}
-                    />
-                </Form.Item>
-                <Form.Item
-                    label={t("nameUz")}
-                    name="nameUz"
+                    label={t("organization")}
+                    name="organization"
                     rules={[{required: true,}]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label={t("nameRu")}
-                    name="nameRu"
+                    label={t("channel")}
+                    name="channel"
                     rules={[{required: true,}]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label={t("descriptionUz")}
-                    name="descriptionUz"
+                    label={t("info")}
+                    name="info"
                     rules={[{required: true,}]}
                 >
                     <TextArea />
                 </Form.Item>
 
                 <Form.Item
-                    label={t("descriptionRu")}
-                    name="descriptionRu"
+                    label={t("phoneNumber1")}
+                    name="phoneNumber1"
                     rules={[{required: true,}]}
                 >
-                    <TextArea />
+                    <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label={t("Order")}
-                    name="number"
-                    rules={[{required: true,}]}
+                    label={t("phoneNumber2")}
+                    name="phoneNumber2"
                 >
-                    <InputNumber />
+                    <Input />
                 </Form.Item>
 
-                <Form.Item
-                    name="active"
-                    valuePropName="active"
-                >
-                    <Checkbox checked={isActive} onChange={(e) => setIsActive(e.target.checked)}>{t("is Active")} ?</Checkbox>
-                </Form.Item>
+                <Space size={"middle"}>
+                    <Form.Item
+                        name="active"
+                        valuePropName="active"
+                    >
+                        <Checkbox checked={isActive} onChange={(e) => setIsActive(e.target.checked)}>{t("is Active")} ?</Checkbox>
+                    </Form.Item>
+
+                    <Form.Item
+                        name="acceptCash"
+                        valuePropName="acceptCash"
+                    >
+                        <Checkbox checked={acceptCash} onChange={(e) => setAcceptCash(e.target.checked)}>{t("acceptCash")} ?</Checkbox>
+                    </Form.Item>
+
+                    <Form.Item
+                        name="acceptTransfer"
+                        valuePropName="acceptTransfer"
+                    >
+                        <Checkbox checked={acceptTransfer} onChange={(e) => setAcceptTransfer(e.target.checked)}>{t("acceptTransfer")} ?</Checkbox>
+                    </Form.Item>
+                </Space>
 
                 <Form.Item>
                     <Button block type="primary" htmlType="submit" loading={isLoading || isLoadingEdit}>
