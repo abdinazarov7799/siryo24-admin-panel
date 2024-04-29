@@ -1,5 +1,5 @@
 const config = {
-  API_ROOT: 'http://localhost:8080',
+  API_ROOT: 'https://siryo24.medias.uz',
   DEFAULT_APP_LANG: "UZ",
 }
 export default config;
