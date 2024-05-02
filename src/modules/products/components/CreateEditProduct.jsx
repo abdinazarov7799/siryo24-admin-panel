@@ -200,7 +200,7 @@ const CreateEditProduct = ({itemData,setIsModalOpen,refetch}) => {
 
                 <Form.Item
                     label={t("status")}
-                    name="status"
+                    name="statusId"
                     rules={[{required: true,}]}>
                     <Select
                         placeholder={t("status")}
