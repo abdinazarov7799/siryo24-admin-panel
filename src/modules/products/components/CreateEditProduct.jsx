@@ -59,6 +59,10 @@ const CreateEditProduct = ({itemData,setIsModalOpen,refetch}) => {
             }
         }
     })
+    const { data:status,isLoading:isLoadingStatus } = useGetAllQuery({
+        key: KEYS.get_price_status,
+        url: URLS.get_price_status,
+    })
     useEffect(() => {
         form.setFieldsValue({
             name: get(itemData,'name'),
@@ -189,6 +193,23 @@ const CreateEditProduct = ({itemData,setIsModalOpen,refetch}) => {
                             return {
                                 value: get(item,'id'),
                                 label: `${get(item,'organization')} / ${get(item,'channel')}`
+                            }
+                        })}
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    label={t("status")}
+                    name="status"
+                    rules={[{required: true,}]}>
+                    <Select
+                        placeholder={t("status")}
+                        defaultValue={get(itemData,'status')}
+                        loading={isLoadingStatus}
+                        options={get(status,'data.data')?.map((item) => {
+                            return {
+                                value: get(item,'id'),
+                                label: t(get(item,'name'))
                             }
                         })}
                     />
