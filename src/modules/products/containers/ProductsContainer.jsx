@@ -73,6 +73,12 @@ const ProductsContainer = () => {
             dataIndex: "price",
         },
         {
+            title: t("status"),
+            key: 'status',
+            dataIndex: "status",
+            render: (text) => t(text)
+        },
+        {
             title: t("priceUpdatedTime"),
             key: 'priceUpdatedTime',
             dataIndex: 'priceUpdatedTime',

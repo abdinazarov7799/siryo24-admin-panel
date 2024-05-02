@@ -5,11 +5,11 @@ import {KEYS} from "../../../constants/key.js";
 import {URLS} from "../../../constants/url.js";
 import usePaginateQuery from "../../../hooks/api/usePaginateQuery.js";
 import useDeleteQuery from "../../../hooks/api/useDeleteQuery.js";
-import {Button, Input, Modal, Pagination, Popconfirm, Row, Space, Switch, Table, Typography} from "antd";
+import {Button, Input, Modal, Pagination, Popconfirm, Row, Space, Switch, Table} from "antd";
 import Container from "../../../components/Container.jsx";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import CreateEditSeller from "../components/CreateEditSeller.jsx";
-const { Link } = Typography;
+
 const SellersContainer = () => {
     const { t } = useTranslation();
     const [page, setPage] = useState(0);
@@ -70,6 +70,14 @@ const SellersContainer = () => {
             title: t("info"),
             dataIndex: "info",
             key: "info",
+        },
+        {
+            title: t("stockMarket"),
+            dataIndex: "stockMarket",
+            key: "stockMarket",
+            render: (props,data,index) => (
+                <Switch disabled checked={get(data,'stockMarket')} />
+            )
         },
         {
             title: t("acceptTransfer"),

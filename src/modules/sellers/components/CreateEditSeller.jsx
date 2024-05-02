@@ -14,6 +14,7 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
     const [isActive, setIsActive] = useState(get(itemData,'active',true));
     const [acceptCash, setAcceptCash] = useState(get(itemData,'acceptCash',true));
     const [acceptTransfer, setAcceptTransfer] = useState(get(itemData,'acceptTransfer',true));
+    const [stockMarket, setStockMarket] = useState(get(itemData,'stockMarket',true));
     const { mutate, isLoading } = usePostQuery({
         listKeyId: KEYS.seller_get_all,
     });
@@ -33,6 +34,7 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
         setIsActive(get(itemData,'active',true))
         setAcceptCash(get(itemData,'acceptCash',true))
         setAcceptTransfer(get(itemData,'acceptTransfer',true))
+        setStockMarket(get(itemData,'stockMarket',true))
     }, [itemData]);
 
     const onFinish = (values) => {
@@ -40,7 +42,8 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
             ...values,
             active: isActive,
             acceptCash,
-            acceptTransfer
+            acceptTransfer,
+            stockMarket
         }
         if (itemData){
             mutateEdit(
@@ -112,26 +115,37 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
                 </Form.Item>
 
                 <Space size={"middle"}>
-                    <Form.Item
-                        name="active"
-                        valuePropName="active"
-                    >
-                        <Checkbox checked={isActive} onChange={(e) => setIsActive(e.target.checked)}>{t("is Active")} ?</Checkbox>
-                    </Form.Item>
+                    <div>
+                        <Form.Item
+                            name="active"
+                            valuePropName="active"
+                        >
+                            <Checkbox checked={isActive} onChange={(e) => setIsActive(e.target.checked)}>{t("is Active")} ?</Checkbox>
+                        </Form.Item>
 
-                    <Form.Item
-                        name="acceptCash"
-                        valuePropName="acceptCash"
-                    >
-                        <Checkbox checked={acceptCash} onChange={(e) => setAcceptCash(e.target.checked)}>{t("acceptCash")} ?</Checkbox>
-                    </Form.Item>
+                        <Form.Item
+                            name="acceptCash"
+                            valuePropName="acceptCash"
+                        >
+                            <Checkbox checked={acceptCash} onChange={(e) => setAcceptCash(e.target.checked)}>{t("acceptCash")} ?</Checkbox>
+                        </Form.Item>
+                    </div>
 
-                    <Form.Item
-                        name="acceptTransfer"
-                        valuePropName="acceptTransfer"
-                    >
-                        <Checkbox checked={acceptTransfer} onChange={(e) => setAcceptTransfer(e.target.checked)}>{t("acceptTransfer")} ?</Checkbox>
-                    </Form.Item>
+                    <div>
+                        <Form.Item
+                            name="acceptTransfer"
+                            valuePropName="acceptTransfer"
+                        >
+                            <Checkbox checked={acceptTransfer} onChange={(e) => setAcceptTransfer(e.target.checked)}>{t("acceptTransfer")} ?</Checkbox>
+                        </Form.Item>
+
+                        <Form.Item
+                            name="stockMarket"
+                            valuePropName="stockMarket"
+                        >
+                            <Checkbox checked={stockMarket} onChange={(e) => setStockMarket(e.target.checked)}>{t("stockMarket")} ?</Checkbox>
+                        </Form.Item>
+                    </div>
                 </Space>
 
                 <Form.Item>

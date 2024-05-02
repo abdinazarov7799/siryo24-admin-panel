@@ -3,7 +3,7 @@ import {useTranslation} from "react-i18next";
 import usePostQuery from "../../../hooks/api/usePostQuery.js";
 import {KEYS} from "../../../constants/key.js";
 import {URLS} from "../../../constants/url.js";
-import {Button, Flex, Form, Input, InputNumber, message, Select, Space, Upload} from "antd";
+import {Button, Flex, Form, Input, InputNumber, message, Select, Upload} from "antd";
 const { Dragger } = Upload;
 import {InboxOutlined, MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import ImgCrop from "antd-img-crop";
