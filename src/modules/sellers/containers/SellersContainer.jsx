@@ -57,6 +57,11 @@ const SellersContainer = () => {
             key: "channel",
         },
         {
+            title: t("chatId"),
+            dataIndex: "chatId",
+            key: "chatId",
+        },
+        {
             title: t("phoneNumber1"),
             dataIndex: "phoneNumber1",
             key: "phoneNumber1",
