@@ -22,4 +22,5 @@ export const URLS = {
     users_ban: "/api/users/ban",
     users_unban: "/api/users/unban",
     get_price_status: '/api/priceStatus/get-all',
+    get_price_history: '/api/price-history/get-all',
 };

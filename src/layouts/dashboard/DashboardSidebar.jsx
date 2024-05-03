@@ -23,6 +23,10 @@ const DashboardSidebar = () => {
             key: "/sellers",
         },
         {
+            label: t("Price history"),
+            key: "/price-history",
+        },
+        {
             label: t("Users"),
             key: "/users",
         },

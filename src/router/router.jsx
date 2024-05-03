@@ -23,6 +23,7 @@ import OverlayLoader from "../components/OverlayLoader.jsx";
 import ProductsPage from "../modules/products/pages/ProductsPage.jsx";
 import UsersPage from "../modules/users/pages/UsersPage.jsx";
 import SellersPage from "../modules/sellers/pages/SellersPage.jsx";
+import PriceHistoryPage from "../modules/price-history/pages/PriceHistoryPage.jsx";
 // PAGES
 
 
@@ -48,6 +49,10 @@ const Router = ({ ...rest }) => {
               <Route
                   path={"/users"}
                   element={<UsersPage />}
+              />
+              <Route
+                  path={"/price-history"}
+                  element={<PriceHistoryPage />}
               />
               <Route
                   path={"/translations"}
