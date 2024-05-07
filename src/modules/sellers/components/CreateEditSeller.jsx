@@ -3,10 +3,11 @@ import {useTranslation} from "react-i18next";
 import usePostQuery from "../../../hooks/api/usePostQuery.js";
 import {KEYS} from "../../../constants/key.js";
 import {URLS} from "../../../constants/url.js";
-import {Button, Checkbox, Form, Input, Space} from "antd";
+import {Button, Checkbox, Form, Input, Select, Space} from "antd";
 const { TextArea } = Input;
 import {get} from "lodash";
 import usePutQuery from "../../../hooks/api/usePutQuery.js";
+import useGetAllQuery from "../../../hooks/api/useGetAllQuery.js";
 
 const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
     const { t } = useTranslation();
@@ -15,6 +16,7 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
     const [acceptCash, setAcceptCash] = useState(get(itemData,'acceptCash',true));
     const [acceptTransfer, setAcceptTransfer] = useState(get(itemData,'acceptTransfer',true));
     const [stockMarket, setStockMarket] = useState(get(itemData,'stockMarket',true));
+    const [searchProduct,setSearchProduct] = useState(null);
     const { mutate, isLoading } = usePostQuery({
         listKeyId: KEYS.seller_get_all,
     });
@@ -22,6 +24,16 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
         listKeyId: KEYS.seller_get_all,
         hideSuccessToast: false
     });
+    const { data:products,isLoading:isLoadingProducts } = useGetAllQuery({
+        key: KEYS.product_get_all,
+        url: URLS.product_get_all,
+        params: {
+            params: {
+                search: searchProduct,
+                size: 1000
+            }
+        }
+    })
 
     useEffect(() => {
         form.setFieldsValue({
@@ -92,6 +104,14 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
                 </Form.Item>
 
                 <Form.Item
+                    label={t("chatId")}
+                    name="chatId"
+                    rules={[{required: true,}]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
                     label={t("info")}
                     name="info"
                     rules={[{required: true,}]}
@@ -112,6 +132,28 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
                     name="phoneNumber2"
                 >
                     <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label={t("Products")}
+                    name="products"
+                >
+                    <Select
+                        showSearch
+                        mode={"multiple"}
+                        placeholder={t("Products")}
+                        optionFilterProp="children"
+                        onSearch={(e) => setSearchProduct(e)}
+                        filterOption={(input, option) =>
+                            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+                        loading={isLoadingProducts}
+                        options={get(products,'data.data.content')?.map((item) => {
+                            return {
+                                value: get(item,'id'),
+                                label: get(item,'name')
+                            }
+                        })}
+                    />
                 </Form.Item>
 
                 <Space size={"middle"}>

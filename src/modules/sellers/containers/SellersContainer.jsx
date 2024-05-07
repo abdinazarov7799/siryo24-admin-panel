@@ -166,6 +166,7 @@ const SellersContainer = () => {
                   size={"middle"}
                   pagination={false}
                   loading={isLoading}
+                  scroll={{ x: true }}
               />
 
               <Modal

@@ -87,6 +87,7 @@ const PriceHistoryContainer = () => {
                     bordered
                     size={"middle"}
                     pagination={false}
+                    scroll={{ x: true }}
                 />
             </Modal>
             <Space direction={"vertical"} style={{width: "100%"}} size={"middle"}>
@@ -105,6 +106,7 @@ const PriceHistoryContainer = () => {
                     size={"middle"}
                     pagination={false}
                     loading={isLoading}
+                    scroll={{ x: true }}
                 />
 
                 <Row justify={"end"} style={{marginTop: 10}}>

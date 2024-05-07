@@ -134,6 +134,7 @@ const UsersContainer = () => {
                     size={"middle"}
                     pagination={false}
                     loading={isLoading}
+                    scroll={{ x: true }}
                 />
 
                 <Row justify={"end"} style={{marginTop: 10}}>

@@ -101,6 +101,7 @@ const TranslationContainer = () => {
                 loading={isLoading}
                 size="small"
                 pagination={false}
+                scroll={{ x: true }}
             />
             <Modal title={t("Add Translations")} open={isModalOpen} onCancel={handleCancel} footer={null}>
                 <LanguageForm data={selected} handleCancel={handleCancel} refetch={refetch}/>

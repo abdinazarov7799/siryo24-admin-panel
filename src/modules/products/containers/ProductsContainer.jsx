@@ -184,6 +184,7 @@ const ProductsContainer = () => {
                   size={"middle"}
                   pagination={false}
                   loading={isLoading}
+                  scroll={{ x: true }}
               />
 
               <Modal
