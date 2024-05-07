@@ -68,11 +68,6 @@ const ProductsContainer = () => {
             key: "manufacturer",
         },
         {
-            title: t("priceUpdatedTime"),
-            key: 'priceUpdatedTime',
-            dataIndex: 'priceUpdatedTime',
-        },
-        {
             title: t("Image"),
             dataIndex: "imageUrl",
             key: "imageUrl",

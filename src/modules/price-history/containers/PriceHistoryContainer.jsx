@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import Container from "../../../components/Container.jsx";
-import {Button, Input, Modal, Pagination, Row, Space, Switch, Table} from "antd";
-import {get, isArray, isNil} from "lodash";
+import {Input, Modal, Pagination, Row, Space, Table} from "antd";
+import {get} from "lodash";
 import {useTranslation} from "react-i18next";
 import usePaginateQuery from "../../../hooks/api/usePaginateQuery.js";
 import {KEYS} from "../../../constants/key.js";
 import {URLS} from "../../../constants/url.js";
-import {FundViewOutlined} from "@ant-design/icons";
 
 const PriceHistoryContainer = () => {
     const {t} = useTranslation();
@@ -42,12 +41,28 @@ const PriceHistoryContainer = () => {
             key: "seller",
         },
         {
-            title: t("updates"),
+            title: t("update id"),
             dataIndex: "updates",
-            key: "updates",
+            key: "updateId",
             width: 100,
-            render: (data, record) => {
-                return <Button icon={<FundViewOutlined />} block type={"primary"} onClick={() => setSelected(data)}/>
+            render: (data) => {
+                return get(data,'id')
+            }
+        },
+        {
+            title: t("Price"),
+            dataIndex: "updates",
+            key: "price",
+            render: (data) => {
+                return get(data,'price')
+            }
+        },
+        {
+            title: t("Updated time"),
+            dataIndex: "updates",
+            key: "updatedTime",
+            render: (data) => {
+                return get(data,'updatedTime')
             }
         },
     ]

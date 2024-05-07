@@ -5,10 +5,11 @@ import {KEYS} from "../../../constants/key.js";
 import {URLS} from "../../../constants/url.js";
 import usePaginateQuery from "../../../hooks/api/usePaginateQuery.js";
 import useDeleteQuery from "../../../hooks/api/useDeleteQuery.js";
-import {Button, Input, Modal, Pagination, Popconfirm, Row, Space, Switch, Table} from "antd";
+import {Button, Input, Modal, Pagination, Popconfirm, Popover, Row, Space, Switch, Table, Typography} from "antd";
 import Container from "../../../components/Container.jsx";
-import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined} from "@ant-design/icons";
 import CreateEditSeller from "../components/CreateEditSeller.jsx";
+const {Text} = Typography;
 
 const SellersContainer = () => {
     const { t } = useTranslation();
@@ -83,6 +84,23 @@ const SellersContainer = () => {
             render: (props,data,index) => (
                 <Switch disabled checked={get(data,'stockMarket')} />
             )
+        },
+        {
+            title: t("Products"),
+            dataIndex: "products",
+            key: "products",
+            render: (props, data, index) => {
+                return (
+                    <Popover
+                        content={
+                            <Space direction={"vertical"}>{props?.map((item) => (<Text>{get(item, 'name')}</Text>))}</Space>
+                        }
+                        title={t("the products they sell")}
+                    >
+                        <Button type="primary" icon={<EyeOutlined />} />
+                    </Popover>
+                )
+            }
         },
         {
             title: t("acceptTransfer"),
