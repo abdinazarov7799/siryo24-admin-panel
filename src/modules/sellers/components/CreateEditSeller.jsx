@@ -98,7 +98,6 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
                 <Form.Item
                     label={t("channel")}
                     name="channel"
-                    rules={[{required: true,}]}
                 >
                     <Input />
                 </Form.Item>
@@ -106,7 +105,6 @@ const CreateEditSeller = ({itemData,setIsModalOpen,refetch}) => {
                 <Form.Item
                     label={t("chatId")}
                     name="chatId"
-                    rules={[{required: true,}]}
                 >
                     <Input />
                 </Form.Item>

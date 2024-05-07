@@ -18,7 +18,6 @@ const CreateEditProduct = ({itemData,setIsModalOpen,refetch}) => {
     const [imageUrl,setImgUrl] = useState(get(itemData,'imageUrl'));
     const [searchCategory,setSearchCategory] = useState(null);
     const [searchProduct,setSearchProduct] = useState(null);
-    // const [searchSeller,setSearchSeller] = useState(null);
     const { mutate, isLoading } = usePostQuery({
         listKeyId: KEYS.product_get_all,
     });
@@ -49,30 +48,15 @@ const CreateEditProduct = ({itemData,setIsModalOpen,refetch}) => {
             }
         }
     })
-    // const { data:sellers,isLoading:isLoadingSellers } = useGetAllQuery({
-    //     key: KEYS.seller_get_all,
-    //     url: URLS.seller_get_all,
-    //     params: {
-    //         params: {
-    //             search: searchSeller,
-    //             size: 1000
-    //         }
-    //     }
-    // })
-    // const { data:status,isLoading:isLoadingStatus } = useGetAllQuery({
-    //     key: KEYS.get_price_status,
-    //     url: URLS.get_price_status,
-    // })
+
     useEffect(() => {
         form.setFieldsValue({
             name: get(itemData,'name'),
             country: get(itemData,'country'),
             manufacturer: get(itemData,'manufacturer'),
-            // price: get(itemData,'price'),
             analogs: get(itemData,'analogs') ? [...get(itemData,'analogs')?.map((item) => get(item, 'id'))] : [],
             alternativeNames: get(itemData,'alternativeNames') ? [...get(itemData,'alternativeNames')?.map(item => item)] : [],
             categoryId: get(itemData,'categoryId'),
-            // sellerId: get(itemData,'sellerId'),
         });
         setImgUrl(get(itemData,'imageUrl'))
     }, [itemData]);
@@ -176,45 +160,6 @@ const CreateEditProduct = ({itemData,setIsModalOpen,refetch}) => {
                     />
                 </Form.Item>
 
-                {/*<Form.Item*/}
-                {/*    label={t("Seller")}*/}
-                {/*    name="sellerId"*/}
-                {/*    rules={[{required: true,}]}>*/}
-                {/*    <Select*/}
-                {/*        showSearch*/}
-                {/*        placeholder={t("Seller")}*/}
-                {/*        optionFilterProp="children"*/}
-                {/*        defaultValue={get(itemData,'sellerId')}*/}
-                {/*        onSearch={(e) => setSearchSeller(e)}*/}
-                {/*        filterOption={(input, option) =>*/}
-                {/*            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}*/}
-                {/*        loading={isLoadingSellers}*/}
-                {/*        options={get(sellers,'data.data.content')?.map((item) => {*/}
-                {/*            return {*/}
-                {/*                value: get(item,'id'),*/}
-                {/*                label: `${get(item,'organization')} / ${get(item,'channel')}`*/}
-                {/*            }*/}
-                {/*        })}*/}
-                {/*    />*/}
-                {/*</Form.Item>*/}
-
-                {/*<Form.Item*/}
-                {/*    label={t("status")}*/}
-                {/*    name="statusId"*/}
-                {/*    rules={[{required: true,}]}>*/}
-                {/*    <Select*/}
-                {/*        placeholder={t("status")}*/}
-                {/*        defaultValue={get(itemData,'status')}*/}
-                {/*        loading={isLoadingStatus}*/}
-                {/*        options={get(status,'data.data')?.map((item) => {*/}
-                {/*            return {*/}
-                {/*                value: get(item,'id'),*/}
-                {/*                label: t(get(item,'name'))*/}
-                {/*            }*/}
-                {/*        })}*/}
-                {/*    />*/}
-                {/*</Form.Item>*/}
-
                 <Form.Item
                     label={t("Analogs")}
                     name="analogs"
@@ -231,7 +176,7 @@ const CreateEditProduct = ({itemData,setIsModalOpen,refetch}) => {
                         options={get(products,'data.data.content')?.map((item) => {
                             return {
                                 value: get(item,'id'),
-                                label: `${get(item,'name')} / ${get(item,'seller')}`
+                                label: `${get(item,'name')} / ${get(item,'country')}`
                             }
                         })}
                     />
@@ -298,15 +243,6 @@ const CreateEditProduct = ({itemData,setIsModalOpen,refetch}) => {
                 >
                     <Input />
                 </Form.Item>
-
-
-                {/*<Form.Item*/}
-                {/*    label={t("price")}*/}
-                {/*    name="price"*/}
-                {/*    rules={[{required: true,}]}*/}
-                {/*>*/}
-                {/*    <InputNumber controls={false} style={{ width: '100%' }} />*/}
-                {/*</Form.Item>*/}
 
                 <Form.Item>
                     <ImgCrop quality={0.5} aspect={400/400}>
